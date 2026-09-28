@@ -15,7 +15,7 @@ function getEvent(data, name) {
   return (data.events || []).find((event) => event.name?.toLowerCase() === name.toLowerCase()) || {}
 }
 
-function PageContent({ type, data }) {
+export function PageContent({ type, data }) {
   const bride = data.bride || {}
   const groom = data.groom || {}
   const wedding = data.wedding || {}
@@ -45,7 +45,8 @@ function PageContent({ type, data }) {
     case 'haldi':
     case 'mehendi':
     case 'sangeet':
-    case 'wedding': {
+    case 'wedding':
+    case 'reception': {
       const eventName = type === 'wedding' ? 'Wedding' : type
       const event = getEvent(data, eventName)
       const isWedding = type === 'wedding'
@@ -160,7 +161,6 @@ export default function WeddingBook({ data }) {
   const [isOpened, setIsOpened] = useState(false)
   const [turnedSheets, setTurnedSheets] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
-  const bookRef = useRef(null)
   const cameraRef = useRef(null)
   const sheetRefs = useRef([])
   const touchStartX = useRef(null)
@@ -343,7 +343,7 @@ export default function WeddingBook({ data }) {
             <div className="book-camera" ref={cameraRef}>
               <div className="book-spine" aria-hidden="true" />
               {turnedSheets === sheets.length ? <div className="inside-back-cover" aria-hidden="true" /> : null}
-              <div className="book" ref={bookRef}>
+              <div className="book">
                 {sheets.map((sheet, index) => (
                   <Sheet
                     key={sheet.id}

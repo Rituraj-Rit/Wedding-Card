@@ -58,5 +58,5 @@ export const weddingData = {
     title: 'Two hearts, one beautiful journey, and a lifetime of togetherness.',
     footer: 'With love'
   },
-  musicFile: '/music/wedding.mp3'
+  musicFile: '/music/sahilmadan-wedding-invitation-421393.mp3'
 }
