@@ -1,0 +1,114 @@
+.contact-section {
+  width: 100%;
+  padding-block: clamp(70px, 9vw, 130px);
+  padding-inline: clamp(20px, 5vw, 60px);
+  background-color: var(--cream);
+  border-top: 5px solid var(--gold);
+}
+
+.contact-container {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.contact-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.phone-card {
+  background-color: white;
+  border: 3px solid var(--gold);
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 5px 20px rgba(91, 29, 45, 0.1);
+  transition: all 0.3s ease;
+}
+
+.phone-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px rgba(91, 29, 45, 0.2);
+}
+
+.phone-button {
+  text-decoration: none;
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  color: var(--primary-maroon);
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+  font-family: var(--font-hindi);
+}
+
+.phone-button:hover {
+  color: var(--burgundy);
+}
+
+.share-button {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-family: var(--font-hindi);
+  color: white;
+  background-color: var(--primary-maroon);
+  border: 3px solid var(--gold);
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 15px rgba(91, 29, 45, 0.3);
+}
+
+.share-button:hover {
+  background-color: var(--burgundy);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(91, 29, 45, 0.4);
+}
+
+.share-button:active {
+  transform: translateY(-1px);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .contact-content {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .phone-button {
+    font-size: 1.1rem;
+  }
+
+  .share-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-section {
+    padding: 3rem 1rem;
+  }
+
+  .phone-card {
+    padding: 1.5rem;
+  }
+
+  .phone-button {
+    font-size: 1rem;
+  }
+}

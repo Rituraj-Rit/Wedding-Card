@@ -1,0 +1,117 @@
+.venue-section {
+  width: 100%;
+  padding-block: clamp(70px, 9vw, 130px);
+  padding-inline: clamp(20px, 5vw, 60px);
+  background: linear-gradient(135deg, var(--ivory) 0%, var(--cream) 100%);
+}
+
+.venue-container {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.venue-card {
+  background-color: white;
+  border: 4px solid var(--gold);
+  border-radius: 15px;
+  padding: 3rem 2rem;
+  box-shadow: 0 10px 30px rgba(91, 29, 45, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.venue-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(91, 29, 45, 0.25);
+}
+
+.venue-description {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: var(--dark-brown);
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  letter-spacing: 0.5px;
+  font-family: var(--font-hindi);
+}
+
+.venue-details {
+  background-color: rgba(212, 165, 116, 0.1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 2rem 0;
+}
+
+.venue-details p {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: var(--primary-maroon);
+  margin: 0.5rem 0;
+  font-family: var(--font-hindi);
+}
+
+.venue-details strong {
+  color: var(--burgundy);
+  font-weight: 700;
+}
+
+.venue-button {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-family: var(--font-hindi);
+  color: white;
+  background-color: var(--primary-maroon);
+  border: 2px solid var(--gold);
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+  box-shadow: 0 5px 15px rgba(91, 29, 45, 0.3);
+}
+
+.venue-button:hover {
+  background-color: var(--burgundy);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(91, 29, 45, 0.4);
+}
+
+.venue-button:active {
+  transform: translateY(-1px);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .venue-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .venue-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .venue-description {
+    font-size: 1.1rem;
+  }
+
+  .venue-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .venue-section {
+    padding: 3rem 1rem;
+  }
+
+  .venue-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .venue-description {
+    font-size: 1rem;
+  }
+
+  .venue-details p {
+    font-size: 1rem;
+  }
+}
