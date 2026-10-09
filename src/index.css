@@ -308,6 +308,16 @@ img {
   }
 }
 
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+  .royal-glass-card {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    background: rgba(36, 7, 16, 0.94);
+    box-shadow: 0 10px 25px rgba(10, 2, 5, 0.45);
+  }
+}
+
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -317,3 +327,4 @@ img {
     scroll-behavior: auto !important;
   }
 }
+

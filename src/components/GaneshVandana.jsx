@@ -19,6 +19,7 @@ export default function GaneshVandana({ data }) {
               alt="Lord Ganesha Emblem"
               className="ganesha-crest-img"
               loading="lazy"
+              decoding="async"
             />
           </div>
 

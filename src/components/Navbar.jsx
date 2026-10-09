@@ -6,18 +6,27 @@ export default function Navbar({ data, onOpenBookModal }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
+    let ticking = false
+    const sectionIds = ['hero', 'shloka', 'couple', 'story', 'countdown', 'events', 'gallery', 'venue', 'rsvp']
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(() => {
+          const isScrolledNow = window.scrollY > 40
+          setScrolled((prev) => (prev !== isScrolledNow ? isScrolledNow : prev))
 
-      const sections = ['hero', 'shloka', 'couple', 'story', 'countdown', 'events', 'gallery', 'venue', 'rsvp']
-      const scrollPosition = window.scrollY + 250
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i])
-        if (el && el.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i])
-          break
-        }
+          const scrollPosition = window.scrollY + 250
+          for (let i = sectionIds.length - 1; i >= 0; i--) {
+            const el = document.getElementById(sectionIds[i])
+            if (el && el.offsetTop <= scrollPosition) {
+              const currentId = sectionIds[i]
+              setActiveSection((prev) => (prev !== currentId ? currentId : prev))
+              break
+            }
+          }
+          ticking = false
+        })
       }
     }
 

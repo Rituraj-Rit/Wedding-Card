@@ -1,61 +1,35 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { weddingData } from '../data/weddingData'
+import React, { useEffect, useState } from 'react'
+import {
+  subscribeAudioState,
+  toggleWeddingAudio,
+  playWeddingAudio,
+  toggleMuteWeddingAudio
+} from '../utils/audioManager'
 
-export default function AudioPlayer({ musicSrc = weddingData.musicFile }) {
-  const audioRef = useRef(null)
-  const hasInteractedRef = useRef(false)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
-  const [hasError, setHasError] = useState(false)
+export default function AudioPlayer() {
+  const [audioState, setAudioState] = useState({
+    isPlaying: false,
+    isMuted: false,
+    hasError: false
+  })
   const [showTooltip, setShowTooltip] = useState(false)
 
-  const playAudio = useCallback(() => {
-    const audio = audioRef.current
-    if (!audio || hasError) return
+  useEffect(() => {
+    const unsubscribe = subscribeAudioState((newState) => {
+      setAudioState(newState)
+    })
+    return () => unsubscribe()
+  }, [])
 
-    audio.volume = 0.8
-    const playPromise = audio.play()
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          setIsPlaying(true)
-          setHasError(false)
-        })
-        .catch(() => {
-          // Autoplay blocked by browser policy until interaction
-          setIsPlaying(false)
-        })
-    }
-  }, [hasError])
-
-  const togglePlay = () => {
-    const audio = audioRef.current
-    if (!audio || hasError) return
-
-    if (isPlaying) {
-      audio.pause()
-      setIsPlaying(false)
-    } else {
-      playAudio()
-    }
+  const handleToggle = (e) => {
+    e.stopPropagation()
+    toggleWeddingAudio()
   }
 
-  // Attempt gentle autoplay on first user click anywhere on screen
-  useEffect(() => {
-    const handleFirstInteraction = () => {
-      if (hasInteractedRef.current) return
-      hasInteractedRef.current = true
-      playAudio()
-    }
-
-    window.addEventListener('click', handleFirstInteraction, { once: true })
-    window.addEventListener('touchstart', handleFirstInteraction, { once: true })
-
-    return () => {
-      window.removeEventListener('click', handleFirstInteraction)
-      window.removeEventListener('touchstart', handleFirstInteraction)
-    }
-  }, [playAudio])
+  const handleRetry = (e) => {
+    e.stopPropagation()
+    playWeddingAudio()
+  }
 
   return (
     <div
@@ -63,40 +37,38 @@ export default function AudioPlayer({ musicSrc = weddingData.musicFile }) {
       onMouseEnter={() => setShowTooltip(true)}
       onMouseLeave={() => setShowTooltip(false)}
     >
-      <audio
-        ref={audioRef}
-        src={musicSrc}
-        loop
-        preload="auto"
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onError={() => setHasError(true)}
-      />
-
       {/* Floating Status Tooltip */}
       <div className={`audio-tooltip ${showTooltip ? 'visible' : ''}`}>
         <span className="tooltip-title">Auspicious Wedding Shehnai</span>
-        <span className="tooltip-status">{isPlaying ? 'Playing • Click to Pause' : 'Click to Play Music'}</span>
+        <span className="tooltip-status">
+          {audioState.hasError
+            ? 'Playback error • Click to Retry'
+            : audioState.isPlaying
+            ? 'Music Playing • Click to Pause'
+            : 'Music Paused • Click to Play'}
+        </span>
       </div>
 
       <button
         type="button"
-        className={`audio-floating-btn ${isPlaying ? 'playing' : ''}`}
-        onClick={togglePlay}
-        aria-label={isPlaying ? 'Pause wedding music' : 'Play wedding music'}
-        title={isPlaying ? 'Pause music' : 'Play music'}
+        className={`audio-floating-btn ${audioState.isPlaying ? 'playing' : ''} ${audioState.hasError ? 'error' : ''}`}
+        onClick={audioState.hasError ? handleRetry : handleToggle}
+        aria-label={audioState.isPlaying ? 'Pause wedding music' : 'Play wedding music'}
+        title={audioState.isPlaying ? 'Pause wedding music' : 'Play wedding music'}
       >
         {/* Animated Sound Wave Bars */}
         <div className="audio-wave-bars" aria-hidden="true">
-          <span className={`bar bar-1 ${isPlaying ? 'active' : ''}`} />
-          <span className={`bar bar-2 ${isPlaying ? 'active' : ''}`} />
-          <span className={`bar bar-3 ${isPlaying ? 'active' : ''}`} />
-          <span className={`bar bar-4 ${isPlaying ? 'active' : ''}`} />
+          <span className={`bar bar-1 ${audioState.isPlaying ? 'active' : ''}`} />
+          <span className={`bar bar-2 ${audioState.isPlaying ? 'active' : ''}`} />
+          <span className={`bar bar-3 ${audioState.isPlaying ? 'active' : ''}`} />
+          <span className={`bar bar-4 ${audioState.isPlaying ? 'active' : ''}`} />
         </div>
 
-        {/* Central Music / Lotus Motif */}
+        {/* Central Music / Pause Icon */}
         <div className="audio-center-icon">
-          {isPlaying ? (
+          {audioState.hasError ? (
+            <span style={{ fontSize: '13px' }}>↺</span>
+          ) : audioState.isPlaying ? (
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
             </svg>

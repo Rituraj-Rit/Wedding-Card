@@ -36,6 +36,7 @@ export default function VenueSection({ data }) {
                 alt={wedding.venue}
                 className="venue-showcase-img"
                 loading="lazy"
+                decoding="async"
               />
               <div className="venue-badge">Ceremonial Palace Mandap</div>
             </div>

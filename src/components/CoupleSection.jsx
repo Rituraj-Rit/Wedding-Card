@@ -31,6 +31,7 @@ export default function CoupleSection({ data }) {
                 alt={bride.name}
                 className="couple-portrait"
                 loading="lazy"
+                decoding="async"
               />
               <div className="couple-role-tag">The Bride</div>
             </div>
@@ -67,6 +68,7 @@ export default function CoupleSection({ data }) {
                 alt={groom.name}
                 className="couple-portrait"
                 loading="lazy"
+                decoding="async"
               />
               <div className="couple-role-tag">The Groom</div>
             </div>

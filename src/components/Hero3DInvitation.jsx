@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
+import { playWeddingAudio } from '../utils/audioManager'
 
 export default function Hero3DInvitation({ data, onOpenBookModal }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -9,46 +10,59 @@ export default function Hero3DInvitation({ data, onOpenBookModal }) {
   const leftFlapRef = useRef(null)
   const rightFlapRef = useRef(null)
   const innerCardRef = useRef(null)
+  const timelineRef = useRef(null)
 
-  // 3D Mouse Parallax and Tilt
+  // 3D Mouse Parallax and Tilt - only active on fine pointer (desktop) devices
   useEffect(() => {
+    // Skip expensive mousemove calculations on touch / mobile devices
+    if (window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768) {
+      return
+    }
+
     const cardShell = cardShellRef.current
     const card = cardRef.current
     const shine = shineRef.current
     if (!cardShell || !card) return
 
+    let rafId = null
+
     const handleMouseMove = (e) => {
-      const rect = cardShell.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+      if (rafId) cancelAnimationFrame(rafId)
 
-      const centerX = rect.width / 2
-      const centerY = rect.height / 2
+      rafId = requestAnimationFrame(() => {
+        const rect = cardShell.getBoundingClientRect()
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
 
-      const rotateX = ((y - centerY) / centerY) * -12
-      const rotateY = ((x - centerX) / centerX) * 14
+        const centerX = rect.width / 2
+        const centerY = rect.height / 2
 
-      gsap.to(card, {
-        rotateX,
-        rotateY,
-        duration: 0.4,
-        ease: 'power2.out',
-        transformPerspective: 1800,
-        overwrite: 'auto'
+        const rotateX = ((y - centerY) / centerY) * -10
+        const rotateY = ((x - centerX) / centerX) * 12
+
+        gsap.to(card, {
+          rotateX,
+          rotateY,
+          duration: 0.35,
+          ease: 'power2.out',
+          transformPerspective: 1800,
+          overwrite: 'auto'
+        })
+
+        if (shine) {
+          const shineX = (x / rect.width) * 100
+          const shineY = (y / rect.height) * 100
+          shine.style.background = `radial-gradient(circle at ${shineX}% ${shineY}%, rgba(255, 238, 194, 0.35) 0%, transparent 60%)`
+        }
       })
-
-      if (shine) {
-        const shineX = (x / rect.width) * 100
-        const shineY = (y / rect.height) * 100
-        shine.style.background = `radial-gradient(circle at ${shineX}% ${shineY}%, rgba(255, 238, 194, 0.35) 0%, transparent 60%)`
-      }
     }
 
     const handleMouseLeave = () => {
+      if (rafId) cancelAnimationFrame(rafId)
       gsap.to(card, {
         rotateX: 0,
         rotateY: 0,
-        duration: 0.8,
+        duration: 0.7,
         ease: 'power3.out',
         overwrite: 'auto'
       })
@@ -57,10 +71,11 @@ export default function Hero3DInvitation({ data, onOpenBookModal }) {
       }
     }
 
-    cardShell.addEventListener('mousemove', handleMouseMove)
+    cardShell.addEventListener('mousemove', handleMouseMove, { passive: true })
     cardShell.addEventListener('mouseleave', handleMouseLeave)
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId)
       cardShell.removeEventListener('mousemove', handleMouseMove)
       cardShell.removeEventListener('mouseleave', handleMouseLeave)
     }
@@ -70,27 +85,42 @@ export default function Hero3DInvitation({ data, onOpenBookModal }) {
     const nextState = !isOpen
     setIsOpen(nextState)
 
+    // 1. Synchronously trigger music playback in user-gesture event loop when opening!
+    if (nextState) {
+      playWeddingAudio()
+    }
+
     const left = leftFlapRef.current
     const right = rightFlapRef.current
     const inner = innerCardRef.current
 
+    if (!left || !right || !inner) return
+
+    // Clean up any ongoing timeline to prevent animation collisions
+    if (timelineRef.current) {
+      timelineRef.current.kill()
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const duration = prefersReducedMotion ? 0.05 : (window.innerWidth < 768 ? 0.8 : 1.05)
+
     if (nextState) {
       // Unfold animation
-      gsap.timeline()
-        .to(left, { rotateY: -140, duration: 1.1, ease: 'power3.inOut' }, 0)
-        .to(right, { rotateY: 140, duration: 1.1, ease: 'power3.inOut' }, 0)
+      timelineRef.current = gsap.timeline()
+        .to(left, { rotateY: -140, duration, ease: 'power3.inOut' }, 0)
+        .to(right, { rotateY: 140, duration, ease: 'power3.inOut' }, 0)
         .fromTo(
           inner,
           { z: 0, scale: 0.95, opacity: 0.7 },
-          { z: 30, scale: 1, opacity: 1, duration: 1.1, ease: 'power2.out' },
-          0.3
+          { z: 20, scale: 1, opacity: 1, duration, ease: 'power2.out' },
+          0.2
         )
     } else {
       // Fold close animation
-      gsap.timeline()
-        .to(inner, { z: 0, scale: 0.95, duration: 0.8, ease: 'power2.in' }, 0)
-        .to(left, { rotateY: 0, duration: 1.1, ease: 'power3.inOut' }, 0.2)
-        .to(right, { rotateY: 0, duration: 1.1, ease: 'power3.inOut' }, 0.2)
+      timelineRef.current = gsap.timeline()
+        .to(inner, { z: 0, scale: 0.95, duration: duration * 0.7, ease: 'power2.in' }, 0)
+        .to(left, { rotateY: 0, duration, ease: 'power3.inOut' }, 0.1)
+        .to(right, { rotateY: 0, duration, ease: 'power3.inOut' }, 0.1)
     }
   }
 
@@ -155,7 +185,7 @@ export default function Hero3DInvitation({ data, onOpenBookModal }) {
             </div>
           </div>
 
-          {/* Center Wax Seal (disappears / fades when unfolded) */}
+          {/* Center Wax Seal (fades when unfolded) */}
           <div className={`card-royal-wax-seal ${isOpen ? 'broken' : ''}`} aria-hidden="true">
             <div className="seal-outer-rim">
               <div className="seal-inner-emboss">

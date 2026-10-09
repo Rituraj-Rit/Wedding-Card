@@ -95,6 +95,7 @@ export default function GallerySection({ data }) {
                   alt={photo.title}
                   className="gallery-thumbnail"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="gallery-card-overlay">
                   <span className="gallery-zoom-icon" aria-hidden="true">✦</span>

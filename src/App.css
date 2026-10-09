@@ -2420,3 +2420,44 @@
   justify-content: center;
   width: 100%;
 }
+
+/* ==========================================================================
+   16. MOBILE PERFORMANCE & RENDERING OPTIMIZATIONS
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Reduce GPU blur rasterization load on mobile screens */
+  .royal-ambient-glow {
+    filter: blur(35px);
+    opacity: 0.38;
+    will-change: auto;
+  }
+
+  .glow-top,
+  .glow-center,
+  .glow-bottom {
+    width: min(85vw, 360px);
+    height: min(85vw, 360px);
+  }
+
+  /* Skip off-screen DOM layout and paint passes on mobile until approached */
+  .story-section,
+  .events-section,
+  .gallery-section,
+  .venue-section,
+  .rsvp-section,
+  .family-blessings-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 650px;
+  }
+
+  /* Isolate 3D card GPU transform layers and prevent mobile texture memory thrashing */
+  .royal-invitation-card-3d,
+  .card-flap,
+  .card-inner-invitation,
+  .flap-outer {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+}
+
