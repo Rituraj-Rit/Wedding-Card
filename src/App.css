@@ -112,57 +112,6 @@
     repeating-linear-gradient(90deg, rgba(122, 75, 52, 0.04), rgba(122, 75, 52, 0.04) 2px, transparent 2px, transparent 8px);
 }
 
-.book-cover-panel {
-  position: absolute;
-  inset: 0;
-  padding: 36px 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  z-index: 2;
-  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(108,62,50,0.06));
-}
-
-.cover-crest {
-  font-size: clamp(1.1rem, 1.8vw, 1.4rem);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #5b1d2d;
-  margin-bottom: 12px;
-}
-
-.book-cover-panel h1 {
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: clamp(2.1rem, 3.4vw, 3.5rem);
-  line-height: 1.1;
-  color: #4a1b24;
-  letter-spacing: 0.06em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.book-cover-panel h1 span {
-  font-size: 0.8em;
-  color: #8d5d2a;
-}
-
-.cover-divider {
-  color: #b88b46;
-  font-size: 2rem;
-  margin: 12px 0 8px;
-}
-
-.book-cover-panel p {
-  color: rgba(54, 25, 30, 0.8);
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .open-book-button {
   margin-top: 26px;
   border: 1px solid rgba(120, 76, 43, 0.45);
@@ -184,17 +133,6 @@
   box-shadow: 0 16px 34px rgba(44, 16, 20, 0.32);
 }
 
-.open-book {
-  position: relative;
-  width: min(88vw, 900px);
-  height: clamp(420px, 52vw, 620px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  perspective: 2200px;
-  transform-style: preserve-3d;
-}
-
 .book-spine {
   position: absolute;
   width: 18px;
@@ -204,47 +142,6 @@
   border-radius: 12px;
   background: linear-gradient(180deg, #a3713d 0%, #6d4228 28%, #2a141b 100%);
   box-shadow: inset 0 0 18px rgba(255,255,255,0.25), 0 14px 28px rgba(0,0,0,0.18);
-}
-
-.page-sheet {
-  position: absolute;
-  top: 50%;
-  width: min(40vw, 420px);
-  height: clamp(360px, 48vw, 600px);
-  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,242,234,0.98));
-  border: 1px solid rgba(163, 118, 70, 0.28);
-  border-radius: 12px 12px 18px 18px;
-  box-shadow: 0 18px 32px rgba(32, 19, 17, 0.2), inset 0 0 0 1px rgba(120,95,60,0.08);
-  overflow: hidden;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  background-image: linear-gradient(90deg, rgba(137,105,81,0.04) 0, rgba(137,105,81,0.02) 28%, transparent 28%), repeating-linear-gradient(0deg, rgba(161,125,91,0.02), rgba(161,125,91,0.02) 1px, transparent 1px, transparent 5px);
-  will-change: transform, box-shadow;
-}
-
-.page-sheet::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(143,104,67,0.1), transparent 22%, transparent 65%, rgba(143,104,67,0.08));
-  pointer-events: none;
-}
-
-.page-left {
-  left: 50%;
-  transform: translate(-105%, -50%);
-  transform-origin: right center;
-  z-index: 20;
-  box-shadow: 0 22px 36px rgba(22, 14, 13, 0.18);
-}
-
-.page-right {
-  left: 50%;
-  transform: translate(-2%, -50%);
-  transform-origin: left center;
-  z-index: 30;
-  cursor: pointer;
 }
 
 .page-content {
@@ -258,40 +155,6 @@
   align-items: center;
   text-align: center;
   color: #31181d;
-}
-
-.cover-content {
-  background: radial-gradient(circle at center, rgba(232, 193, 120, 0.18), transparent 38%), linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.05));
-}
-
-.cover-badge {
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #6c2a32;
-  margin-bottom: 10px;
-}
-
-.cover-heading {
-  font-family: 'Georgia', serif;
-  font-size: clamp(2.1rem, 3vw, 3rem);
-  line-height: 1.2;
-  letter-spacing: 0.04em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #4a1b24;
-}
-
-.cover-heading span {
-  color: #8f6534;
-  margin: 6px 0;
-}
-
-.floral-mark {
-  margin: 12px 0;
-  color: #b88b46;
-  font-size: 1.6rem;
 }
 
 .cover-caption {
@@ -310,8 +173,6 @@
 }
 
 .invitation-content h2,
-.ceremony-content h2,
-.message-content h2,
 .venue-content h2 {
   font-family: 'Georgia', serif;
   line-height: 1.4;
@@ -341,91 +202,11 @@
 }
 
 .invitation-content p,
-.detail-list p,
 .venue-address,
-.message-content .message-couple,
 .final-content p {
   font-size: 0.96rem;
   line-height: 1.8;
   color: rgba(43, 22, 24, 0.88);
-}
-
-.event-stack {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.mini-event {
-  display: grid;
-  grid-template-columns: 22px 1fr;
-  gap: 10px;
-  align-items: flex-start;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(111, 68, 52, 0.12);
-  text-align: left;
-}
-
-.mini-event:last-child {
-  border-bottom: none;
-}
-
-.mini-event-icon {
-  color: #ad7d3c;
-  font-size: 1rem;
-  padding-top: 3px;
-}
-
-.mini-event h3 {
-  margin: 0 0 4px;
-  font-size: 1.05rem;
-  color: #4c1e2d;
-}
-
-.mini-event p {
-  margin: 2px 0;
-  font-size: 0.82rem;
-  color: rgba(51, 28, 28, 0.8);
-}
-
-.event-description {
-  margin-top: 6px !important;
-  line-height: 1.5;
-}
-
-.detail-list {
-  margin-top: 18px;
-  width: 100%;
-  text-align: left;
-}
-
-.detail-list p {
-  margin: 8px 0;
-}
-
-.family-split {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 12px;
-  align-items: start;
-}
-
-.family-split h3 {
-  margin-bottom: 8px;
-  color: #4c1e2d;
-  font-size: 1rem;
-}
-
-.family-split ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  color: rgba(64, 35, 35, 0.88);
-  font-size: 0.9rem;
 }
 
 .family-divider {
@@ -450,38 +231,8 @@
   font-size: 0.75rem;
 }
 
-.message-content {
-  justify-content: center;
-}
-
-.message-content h2 {
-  font-size: clamp(1.4rem, 2vw, 2rem);
-  margin-bottom: 14px;
-}
-
-.message-couple {
-  font-family: 'Georgia', serif;
-  font-size: 1.2rem;
-  color: #5d1f2e;
-}
-
 .final-content {
   gap: 10px;
-}
-
-.final-quote {
-  font-size: 1.08rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #7c4e2f;
-  margin-bottom: 6px;
-}
-
-.with-love {
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #8a6336;
 }
 
 .book-navigation {
@@ -528,32 +279,6 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #f7d3a1;
-}
-
-.music-button-wrap {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  z-index: 45;
-}
-
-.music-button {
-  width: 46px;
-  height: 46px;
-  border: 1px solid rgba(223, 181, 106, 0.6);
-  border-radius: 50%;
-  background: rgba(32, 17, 20, 0.64);
-  color: #f8e9c8;
-  cursor: pointer;
-  font-size: 1.1rem;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.18);
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.music-button:hover,
-.music-button:focus-visible {
-  transform: translateY(-1px);
-  background: rgba(49, 24, 26, 0.84);
 }
 
 .petal-layer {
@@ -619,33 +344,12 @@
     height: min(78vw, 560px);
   }
 
-  .open-book {
-    width: min(92vw, 540px);
-    height: 440px;
-  }
-
-  .page-sheet {
-    width: min(42vw, 260px);
-    height: 380px;
-  }
-
   .page-content {
     padding: 18px 18px 14px;
   }
 
-  .cover-heading {
-    font-size: 2.2rem;
-  }
-
-  .invitation-content h2,
-  .ceremony-content h2,
-  .message-content h2 {
+  .invitation-content h2 {
     font-size: 1.3rem;
-  }
-
-  .family-split {
-    grid-template-columns: 1fr;
-    gap: 8px;
   }
 
   .family-divider {
@@ -654,11 +358,6 @@
 }
 
 @media (max-width: 480px) {
-  .music-button-wrap {
-    right: 16px;
-    bottom: 16px;
-  }
-
   .book-navigation {
     bottom: 18px;
     gap: 12px;
