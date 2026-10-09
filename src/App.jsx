@@ -1,43 +1,118 @@
 import React, { useEffect, useState } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './App.css'
-import MusicButton from './components/MusicButton'
-import WeddingBook from './components/WeddingBookEngine'
-import MobileInvitation from './components/MobileInvitation'
-import FloatingPetals from './components/FloatingPetals'
+import RoyalBackground from './components/RoyalBackground'
+import AudioPlayer from './components/AudioPlayer'
+import CustomCursor from './components/CustomCursor'
+import Navbar from './components/Navbar'
+import Hero3DInvitation from './components/Hero3DInvitation'
+import GaneshVandana from './components/GaneshVandana'
+import CoupleSection from './components/CoupleSection'
+import StorySection from './components/StorySection'
+import CountdownSection from './components/CountdownSection'
+import EventsSection from './components/EventsSection'
+import GallerySection from './components/GallerySection'
+import VenueSection from './components/VenueSection'
+import RsvpSection from './components/RsvpSection'
+import FamilyBlessingsSection from './components/FamilyBlessingsSection'
+import KeepsakeBookModal from './components/KeepsakeBookModal'
 import { weddingData } from './data/weddingData'
 
+gsap.registerPlugin(ScrollTrigger)
+
 export default function App() {
-  const [isReady, setIsReady] = useState(false)
-  const [isMobile, setIsMobile] = useState(() => window.matchMedia('(max-width: 600px)').matches)
+  const [isBookModalOpen, setIsBookModalOpen] = useState(false)
 
+  // Scroll animations with GSAP ScrollTrigger
   useEffect(() => {
-    const timer = window.setTimeout(() => setIsReady(true), 180)
-    return () => window.clearTimeout(timer)
-  }, [])
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 600px)')
-    const updateLayout = (event) => setIsMobile(event.matches)
-    mediaQuery.addEventListener('change', updateLayout)
-    return () => mediaQuery.removeEventListener('change', updateLayout)
+    const ctx = gsap.context(() => {
+      const sections = document.querySelectorAll('.section-container')
+      sections.forEach((section) => {
+        gsap.fromTo(
+          section,
+          { opacity: 0, y: 35 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
+          }
+        )
+      })
+    })
+
+    return () => {
+      ctx.revert()
+    }
   }, [])
 
   return (
-    <div className={`invitation-app${isMobile ? ' mobile-mode' : ''}`}>
-      <div className="ambient ambient-one" aria-hidden="true" />
-      <div className="ambient ambient-two" aria-hidden="true" />
-      <div className="ambient ambient-three" aria-hidden="true" />
-      <FloatingPetals />
+    <div className="royal-wedding-app">
+      {/* 60FPS Golden Dust, Petals & Royal Ambient Lights */}
+      <RoyalBackground />
 
-      <MusicButton musicSrc={weddingData.musicFile} />
+      {/* Trailing Gold Desktop Cursor */}
+      <CustomCursor />
 
-      {isMobile ? (
-        <MobileInvitation data={weddingData} />
-      ) : (
-        <div className={`book-scene ${isReady ? 'loaded' : ''}`}>
-          <WeddingBook data={weddingData} />
-        </div>
-      )}
+      {/* Floating Audio Visualizer Player */}
+      <AudioPlayer musicSrc={weddingData.musicFile} />
+
+      {/* Royal Navbar */}
+      <Navbar
+        data={weddingData}
+        onOpenBookModal={() => setIsBookModalOpen(true)}
+      />
+
+      {/* Main Content Sections */}
+      <main className="royal-main-content">
+        {/* 1. Cinematic 3D Interactive Invitation Hero */}
+        <Hero3DInvitation
+          data={weddingData}
+          onOpenBookModal={() => setIsBookModalOpen(true)}
+        />
+
+        {/* 2. Auspicious Ganesh Vandana & Shloka */}
+        <GaneshVandana data={weddingData} />
+
+        {/* 3. The Royal Couple (Bride & Groom) */}
+        <CoupleSection data={weddingData} />
+
+        {/* 4. Our Journey & Story */}
+        <StorySection data={weddingData} />
+
+        {/* 5. Live Auspicious Countdown & Calendar Links */}
+        <CountdownSection data={weddingData} />
+
+        {/* 6. Wedding Events & Ceremonies */}
+        <EventsSection data={weddingData} />
+
+        {/* 7. Memory Gallery & Lightbox */}
+        <GallerySection data={weddingData} />
+
+        {/* 8. Royal Palace Venue & Concierge */}
+        <VenueSection data={weddingData} />
+
+        {/* 9. RSVP & Live Blessings Wall */}
+        <RsvpSection data={weddingData} />
+
+        {/* 10. Family Blessings & Royal Gratitude */}
+        <FamilyBlessingsSection data={weddingData} />
+      </main>
+
+      {/* Interactive 3D Keepsake Flipbook Modal */}
+      <KeepsakeBookModal
+        data={weddingData}
+        isOpen={isBookModalOpen}
+        onClose={() => setIsBookModalOpen(false)}
+      />
     </div>
   )
 }
