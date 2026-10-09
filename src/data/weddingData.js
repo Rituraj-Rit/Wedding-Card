@@ -58,5 +58,6 @@ export const weddingData = {
     title: 'Two hearts, one beautiful journey, and a lifetime of togetherness.',
     footer: 'With love'
   },
-  musicFile: 'https://ik.imagekit.io/vzka7hihv/audio/6ac8a0055dda91955f55cf55_M_s_TCW9Q'
+  // musicFile: 'https://ik.imagekit.io/vzka7hihv/audio/6ac8a0055dda91955f55cf55_M_s_TCW9Q'
+  musicFile: 'https://ik.imagekit.io/vzka7hihv/audio/6ac8ade9d56114ea3296d1a2_2gZ8SW7QWA'
 }
